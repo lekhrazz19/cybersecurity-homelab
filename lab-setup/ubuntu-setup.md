@@ -1,19 +1,22 @@
-# 🐧 Ubuntu Server Setup
+# Ubuntu Server Setup
 
 ## Overview
-This document outlines the configuration of **Ubuntu Server** as the **target machine** in the cybersecurity homelab environment.
+
+For the target machine in my cybersecurity homelab, I chose Ubuntu Server. It's a common choice for servers and represents the kind of system you would find in many real-world environments. Running it as the target gave me a safe system to practice penetration testing techniques without breaking anything important.
 
 ---
 
 ## Installation
 
 ### System Requirements
+
 - Ubuntu Server 20.04 LTS or later
 - Minimum 2GB RAM
 - 20GB disk space
 - Network connectivity
 
 ### Installation Steps
+
 1. Download Ubuntu Server ISO from [official website](https://ubuntu.com/download/server)
 2. Create bootable USB or virtual machine
 3. Follow installation wizard
@@ -24,12 +27,20 @@ This document outlines the configuration of **Ubuntu Server** as the **target ma
 
 ## Initial Configuration
 
+Once Ubuntu Server was installed, I started with some basic configuration steps to prepare it for testing.
+
 ### Update System
+
+The first thing I did was update all packages to make sure the system was current:
+
 ```bash
 sudo apt update && sudo apt upgrade -y
 ```
 
 ### Check IP Address
+
+I needed to know the IP address so I could connect from Kali. I used:
+
 ```bash
 ip addr show
 # or
@@ -37,6 +48,9 @@ ifconfig
 ```
 
 ### Enable SSH (if not already enabled)
+
+SSH lets me access the server remotely, which is essential for many attacks:
+
 ```bash
 sudo apt install openssh-server -y
 sudo systemctl enable ssh
@@ -47,7 +61,10 @@ sudo systemctl start ssh
 
 ## Services Installation
 
+To make the lab more realistic, I installed several services that are commonly found on real servers. This gave me various targets to practice different attack techniques.
+
 ### Apache Web Server
+
 ```bash
 # Install Apache
 sudo apt install apache2 -y
@@ -56,191 +73,125 @@ sudo apt install apache2 -y
 sudo systemctl start apache2
 sudo systemctl enable apache2
 
-# Check status
+# Verify it's running
 sudo systemctl status apache2
 ```
 
-### PHP (for vulnerable web applications)
+### MySQL Database
+
 ```bash
-sudo apt install php libapache2-mod-php php-mysql -y
+# Install MySQL
+sudo apt install mysql-server -y
+
+# Run security script
+sudo mysql_secure_installation
 ```
 
-### MySQL Database
+### FTP Server (vsftpd)
+
 ```bash
-sudo apt install mysql-server -y
-sudo mysql_secure_installation
+# Install vsftpd
+sudo apt install vsftpd -y
+
+# Configure and start
+sudo systemctl enable vsftpd
+sudo systemctl start vsftpd
 ```
 
 ---
 
-## DVWA Installation
+## Security Configurations
 
-### Download and Setup DVWA
+### Firewall Setup
+
+I configured the firewall to allow the services I wanted to test:
+
 ```bash
-# Navigate to web directory
-cd /var/www/html
+# Enable UFW firewall
+sudo ufw enable
 
-# Clone DVWA repository
-sudo git clone https://github.com/digininja/DVWA.git
+# Allow SSH (important - don't lock yourself out)
+sudo ufw allow ssh
 
-# Set permissions
-sudo chown -R www-data:www-data DVWA
-sudo chmod -R 755 DVWA
+# Allow HTTP and HTTPS
+sudo ufw allow http
+sudo ufw allow https
+
+# Allow FTP
+sudo ufw allow ftp
+
+# Check status
+sudo ufw status
 ```
 
-### Configure DVWA
+### Creating Test Users
+
+I created some test user accounts with weak passwords on purpose, so I could practice password cracking:
+
 ```bash
-# Copy configuration file
-cd DVWA/config
-sudo cp config.inc.php.dist config.inc.php
-
-# Edit configuration (set database credentials)
-sudo nano config.inc.php
+sudo adduser testuser1
+sudo adduser testuser2
 ```
-
-### Setup Database
-1. Access DVWA: `http://<server-ip>/DVWA/setup.php`
-2. Click "Create / Reset Database"
-3. Login with default credentials:
-   - Username: `admin`
-   - Password: `password`
 
 ---
 
 ## Network Configuration
 
-### Check Listening Ports
+### Static IP (Optional)
+
+To keep things consistent, I set a static IP address. This meant I wouldn't have to check the IP every time I wanted to connect from Kali.
+
+Edit the network configuration file:
+
 ```bash
-sudo netstat -tulpn
-# or
-sudo ss -tulpn
+sudo nano /etc/netplan/00-installer-config.yaml
 ```
 
-### Firewall Configuration (Optional)
+Example configuration:
+
+```yaml
+network:
+  version: 2
+  ethernets:
+    eth0:
+      addresses:
+        - 192.168.1.100/24
+      gateway4: 192.168.1.1
+      nameservers:
+        addresses: [8.8.8.8, 8.8.4.4]
+```
+
+Apply the changes:
+
 ```bash
-# Check firewall status
-sudo ufw status
-
-# Allow Apache
-sudo ufw allow 'Apache Full'
-
-# Allow SSH
-sudo ufw allow 22/tcp
+sudo netplan apply
 ```
 
 ---
 
-## Purpose as Target Machine
+## Verification
 
-### Services Exposed
-| Service | Port | Purpose |
-|---------|------|--------|
-| **SSH** | 22 | Remote access testing |
-| **HTTP** | 80 | Web application testing |
-| **MySQL** | 3306 | Database security testing |
+After everything was set up, I verified that all services were running:
 
-### Vulnerabilities for Testing
-- Web application vulnerabilities (DVWA)
-- Service version detection
-- Port scanning practice
-- Authentication testing
-
----
-
-## Security Notes
-
-⚠️ **Important:**
-- This is a **vulnerable** system by design
-- Only use in **isolated** lab environment
-- **Never expose** to public internet
-- Keep snapshots for easy restoration
-- Monitor all testing activities
-
----
-
-## Testing Scenarios
-
-### Network Scanning
-- Target for Nmap reconnaissance
-- Service enumeration practice
-- Port detection exercises
-
-### Web Application Testing
-- SQL injection practice (DVWA)
-- XSS vulnerability testing
-- File upload exploits
-- Authentication bypass attempts
-
-### SSH Testing
-- Connection testing
-- Brute force prevention (fail2ban)
-- Key-based authentication
-
----
-
-## Maintenance
-
-### Regular Tasks
 ```bash
 # Check running services
-sudo systemctl status apache2
-sudo systemctl status mysql
-sudo systemctl status ssh
+sudo systemctl list-units --type=service --state=running
 
-# View logs
-sudo tail -f /var/log/apache2/access.log
-sudo tail -f /var/log/apache2/error.log
-
-# Restart services if needed
-sudo systemctl restart apache2
-```
-
-### Reset Environment
-```bash
-# Reset DVWA database
-# Access: http://<server-ip>/DVWA/setup.php
-# Click "Create / Reset Database"
-
-# Restore from snapshot (if using VM)
+# Check open ports
+sudo netstat -tulpn
 ```
 
 ---
 
-## Verification Checklist
+## What I Learned
 
-✅ Ubuntu Server installed and updated
-✅ Apache web server running
-✅ SSH service enabled
-✅ DVWA installed and accessible
-✅ Network connectivity verified
-✅ IP address documented
-✅ Services responding to requests
+Setting up Ubuntu Server taught me several important things:
 
----
-
-## Next Steps
-
-➡️ Server is ready for security testing
-➡️ Proceed to [Nmap Scanning](../attacks/nmap-scan.md)
+1. **Service Management**: I learned how to install, configure, and manage services using systemctl
+2. **Firewall Configuration**: Understanding UFW helped me see how firewalls protect systems
+3. **Network Basics**: Setting up static IPs and understanding network configuration was valuable
+4. **Linux Administration**: Managing users, permissions, and system updates gave me practical Linux experience
 
 ---
 
-## Useful Commands Reference
-
-```bash
-# Check Ubuntu version
-lsb_release -a
-
-# Check system resources
-free -h
-df -h
-
-# View network connections
-sudo netstat -tuln
-
-# Check Apache configuration
-apachectl -t
-
-# View installed packages
-dpkg -l | grep apache
-```
+With the Ubuntu Server configured, I had a realistic target environment ready for penetration testing. The next step was setting up the Ubuntu Server as my target machine.
