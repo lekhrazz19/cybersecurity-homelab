@@ -1,10 +1,11 @@
-# 📸 Screenshots
+# Screenshots
 
 This folder contains visual documentation of the cybersecurity homelab project.
 
 ## Purpose
 
 Screenshots provide visual evidence of:
+
 - Lab setup and configuration
 - Security testing activities
 - Tool usage and output
@@ -16,40 +17,47 @@ Screenshots provide visual evidence of:
 ## Screenshot Categories
 
 ### Lab Environment
+
 - Kali Linux WSL setup
 - Ubuntu Server configuration
 - Network connectivity
 - Service status
 
 ### Security Testing
+
 - Nmap scan results
 - DVWA vulnerability testing
 - Burp Suite intercepts
 - Command outputs
 
 ### Learning Documentation
+
 - Tool interfaces
 - Configuration steps
-- Test results
-- Output examples
+- Error resolution
+- Successful exploits
 
 ---
 
-## Adding Screenshots
+## Organization
 
-To add screenshots to this folder:
+Screenshots are organized by:
 
-1. Take clear, readable screenshots
-2. Use descriptive filenames (e.g., `nmap-scan-results.png`)
-3. Organize by category
-4. Reference in documentation
-
----
-
-## Note
-
-*Screenshots will be added as the lab progresses and testing activities are documented.*
+1. **Date**: Chronological order of testing
+2. **Topic**: Grouped by testing phase or tool
+3. **Result**: Success, failure, or learning moments
 
 ---
 
-**Placeholder**: This folder structure is ready for visual documentation of the homelab activities.
+## Usage Notes
+
+These screenshots serve as:
+
+- Visual proof of hands-on experience
+- Documentation for future reference
+- Portfolio material for job applications
+- Learning journal entries
+
+---
+
+**Note**: All screenshots were taken in a controlled lab environment for educational purposes only.
