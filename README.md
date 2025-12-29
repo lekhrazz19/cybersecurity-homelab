@@ -1,17 +1,17 @@
-# 🛡️ Cybersecurity Homelab – Kali Linux Attacker & Ubuntu Server Target
+#  Cybersecurity Homelab – Kali Linux Attacker & Ubuntu Server Target
 
-## 📌 Project Overview
+##  Project Overview
 
 This project demonstrates a **hands-on cybersecurity homelab** created for learning **penetration testing**, **vulnerability assessment**, and **Linux security**. The lab simulates real-world attack scenarios in a safe, controlled, and ethical environment.
 
-### 🎯 Lab Architecture
+###  Lab Architecture
 - **Attacker Machine**: Kali Linux (via WSL)
 - **Target Machine**: Ubuntu Server
 - **Environment**: Isolated local network
 
 ---
 
-## 🚀 Objective
+##  Objective
 
 The primary goal of this project is to:
 - Gain practical experience in **ethical hacking**
@@ -22,7 +22,7 @@ The primary goal of this project is to:
 
 ---
 
-## 🛠️ Tools Used
+## Tools Used
 
 ### Kali Linux Tools:
 | Tool | Purpose |
@@ -39,7 +39,7 @@ The primary goal of this project is to:
 
 ---
 
-## 📂 Repository Structure
+##  Repository Structure
 
 ```
 cybersecurity-homelab/
@@ -80,21 +80,21 @@ cybersecurity-homelab/
 
 ---
 
-## 📚 Key Learnings
+##  Key Learnings
 
-✅ **Technical Skills:**
+ **Technical Skills:**
 - Linux command-line proficiency
 - Network scanning and enumeration
 - Web application vulnerability testing
 - Security tool utilization
 
-✅ **Security Concepts:**
+ **Security Concepts:**
 - CIA Triad (Confidentiality, Integrity, Availability)
 - OWASP Top 10 vulnerabilities
 - Ethical hacking methodology
 - Defense in depth
 
-✅ **Professional Development:**
+ **Professional Development:**
 - Documentation and reporting skills
 - Lab environment setup and management
 - Understanding of attack vectors
@@ -102,7 +102,7 @@ cybersecurity-homelab/
 
 ---
 
-## 🔮 Future Improvements
+##  Future Improvements
 
 - [ ] Add more vulnerable machines (Metasploitable, HackTheBox)
 - [ ] Implement network segmentation
@@ -113,7 +113,7 @@ cybersecurity-homelab/
 
 ---
 
-## ⚠️ Disclaimer
+##  Disclaimer
 
 **This project was created strictly for educational purposes in a controlled lab environment.**
 
@@ -124,7 +124,7 @@ cybersecurity-homelab/
 
 ---
 
-## 👨‍💻 About the Project
+##  About the Project
 
 This homelab project showcases:
 - Practical cybersecurity skills
@@ -138,7 +138,7 @@ This homelab project showcases:
 
 ---
 
-## 📞 Connect
+##  Connect
 
 Interested in cybersecurity and ethical hacking? Let's connect!
 
